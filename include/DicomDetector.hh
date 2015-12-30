@@ -126,5 +126,5 @@ protected:
 
     std::set<G4LogicalVolume*> scorers;
 
-  G4bool fConstructed;
+    G4bool fConstructed;
 };

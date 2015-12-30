@@ -19,19 +19,18 @@ include(${Geant4_USE_FILE})
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
-include_directories(${PROJECT_SOURCE_DIR}/include 
+include_directories(${PROJECT_SOURCE_DIR}/include
                     ${Geant4_INCLUDE_DIR})
-                    
+
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(DICOM DICOM.cc ${headers} ${sources})
+add_executable(DICOM main.cc ${headers} ${sources})
 
 target_link_libraries(DICOM ${Geant4_LIBRARIES} )
-
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -43,16 +42,16 @@ target_link_libraries(DICOM ${Geant4_LIBRARIES} )
 set(DICOM_MACROS
     run.mac vis.mac
     )
- 
+
 # original set of DICOM data
 set(DICOM_SCRIPTS
-    1.dcm 2.dcm 3.dcm 
-    1.g4  2.g4 3.g4 
+    1.dcm 2.dcm 3.dcm
+    1.g4  2.g4 3.g4
     1.g4dcm 2.g4dcm 3.g4dcm
-    ColourMap.dat CT2Density.dat 
-    Data.dat 
+    ColourMap.dat CT2Density.dat
+    Data.dat
   )
-  
+
 # new DICOM data (in share directory)
 set(DICOM_SHARE
     AltData.dat SixSlice.dat

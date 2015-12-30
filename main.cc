@@ -101,13 +101,11 @@ int main(int argc,char** argv)
     runManager->SetNumberOfThreads(nthreads);
 
     G4cout << "\n\n\tDICOM running in multithreaded mode with " << nthreads
-          << " threads\n\n" << G4endl;
-
+          << " threads\n\n" << std::endl;
 
 #else
     G4RunManager* runManager = new G4RunManager;
-    G4cout << "\n\n\tDICOM running in serial mode\n\n" << G4endl;
-
+    G4cout << "\n\n\tDICOM running in serial mode\n\n" << std::endl;
 #endif
 
     // Treatment of DICOM images before creating the G4runManager
