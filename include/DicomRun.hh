@@ -32,16 +32,17 @@
 #ifndef DicomRun_h
 #define DicomRun_h 1
 
+#include <vector>
+
 #include "G4Run.hh"
 #include "G4Event.hh"
 
 #include "G4THitsMap.hh"
-#include <vector>
 
 //---------------------------------------------------------------------
 /// DicomRun class
 ///
-/// Example implementation for multi-functional-detector and 
+/// Example implementation for multi-functional-detector and
 /// primitive scorer.
 /// This DicomRun class has collections which accumulate
 /// a event information into a run information.
@@ -57,19 +58,19 @@ public:
   virtual ~DicomRun();
 
 public:
-  // virtual method from G4Run. 
+  // virtual method from G4Run.
   // The method is overriden in this class for scoring.
   virtual void RecordEvent(const G4Event*);
 
   // Access methods for scoring information.
-  // - Number of HitsMap for this RUN. 
+  // - Number of HitsMap for this RUN.
   //   This is equal to number of collections.
   G4int GetNumberOfHitsMap() const {return fRunMap.size();}
   // - Get HitsMap of this RUN.
   //   by sequential number, by multifucntional name and collection name,
   //   and by collection name with full path.
   G4THitsMap<G4double>* GetHitsMap(G4int i) const {return fRunMap[i];}
-  G4THitsMap<G4double>* GetHitsMap(const G4String& detName, 
+  G4THitsMap<G4double>* GetHitsMap(const G4String& detName,
                                   const G4String& colName) const;
   G4THitsMap<G4double>* GetHitsMap(const G4String& fullName) const;
 

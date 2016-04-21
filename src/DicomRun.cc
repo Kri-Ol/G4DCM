@@ -1,37 +1,7 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-// $Id: DicomRun.cc 84839 2014-10-21 13:44:55Z gcosmo $
-//
-/// \file medical/DICOM/src/DicomRun.cc
-/// \brief Implementation of the DicomRun class
-
 //=====================================================================
 ///
 ///  (Description)
-///    DicomRun Class is for accumulating scored quantities which is 
+///    DicomRun Class is for accumulating scored quantities which is
 ///  scored using G4MutiFunctionalDetector and G4VPrimitiveScorer.
 ///  Accumulation is done using G4THitsMap object.
 ///
@@ -40,10 +10,10 @@
 ///  was assigned at instantiation of MultiFunctionalDetector(MFD).
 ///  Then DicomRun constructor automatically scans primitive scorers
 ///  in the MFD, and obtains collectionIDs of all collections associated
-///  to those primitive scorers. Futhermore, the G4THitsMap objects 
+///  to those primitive scorers. Futhermore, the G4THitsMap objects
 ///  for accumulating during a RUN are automatically created too.
 ///  (*) Collection Name is same as primitive scorer name.
-/// 
+///
 ///    The resultant information is kept inside DicomRun objects as
 ///  data members.
 ///  std::vector<G4String> fCollName;            // Collection Name,
@@ -63,7 +33,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //
-//  Constructor. 
+//  Constructor.
 DicomRun::DicomRun()
 : G4Run()
 { }
@@ -118,16 +88,16 @@ void DicomRun::ConstructMFD(const std::vector<G4String>& mfdName)
         // Get Primitive Scorer object.
         G4VPrimitiveScorer* scorer = mfd->GetPrimitive(icol);
         // collection name and collectionID for HitsCollection,
-        // where type of HitsCollection is G4THitsMap in case 
+        // where type of HitsCollection is G4THitsMap in case
         // of primitive scorer.
-        // The collection name is given by <MFD name>/<Primitive 
+        // The collection name is given by <MFD name>/<Primitive
         // Scorer name>.
         G4String collectionName = scorer->GetName();
         G4String fullCollectionName = detName+"/"+collectionName;
         G4int    collectionID = SDman->GetCollectionID(fullCollectionName);
         //
         if ( collectionID >= 0 ){
-          G4cout << "++ "<<fullCollectionName<< " id " << collectionID 
+          G4cout << "++ "<<fullCollectionName<< " id " << collectionID
                  << G4endl;
           // Store obtained HitsCollection information into data members.
           // And, creates new G4THitsMap for accumulating quantities during RUN.
@@ -151,15 +121,15 @@ void DicomRun::ConstructMFD(const std::vector<G4String>& mfdName)
 void DicomRun::RecordEvent(const G4Event* aEvent)
 {
   numberOfEvent++;  // This is an original line.
-  
-  //G4cout << "Dicom Run :: Recording event " << aEvent->GetEventID() 
+
+  //G4cout << "Dicom Run :: Recording event " << aEvent->GetEventID()
   //<< "..." << G4endl;
   //=============================
   // HitsCollection of This Event
   //============================
   G4HCofThisEvent* HCE = aEvent->GetHCofThisEvent();
   if (!HCE) return;
-  
+
   //=======================================================
   // Sum up HitsMap of this Event  into HitsMap of this RUN
   //=======================================================
@@ -180,9 +150,9 @@ void DicomRun::RecordEvent(const G4Event* aEvent)
     //G4cout << "Null pointer to EvtMap at " << i << "..." << G4endl;
     //}
   }
-  
+
   G4Run::RecordEvent(aEvent);
-  
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -223,9 +193,9 @@ G4THitsMap<G4double>* DicomRun::GetHitsMap(const G4String& detName,
 //    <MultiFunctional Detector Name>/<Primitive Scorer Name>
 G4THitsMap<G4double>* DicomRun::GetHitsMap(const G4String& fullName) const
 {
-  
+
   //G4THitsMap<G4double>* hitsmap = 0;
-  
+
   G4int Ncol = fCollName.size();
   for ( G4int i = 0; i < Ncol; i++){
     if ( fCollName[i] == fullName ){
@@ -234,9 +204,9 @@ G4THitsMap<G4double>* DicomRun::GetHitsMap(const G4String& fullName) const
             //if(!hitsmap) { hitsmap = fRunMap[i]; }
     }
   }
-  
+
   //if(hitsmap) { return hitsmap; }
-  
+
   G4Exception("DicomRun", fullName.c_str(), JustWarning,
               "GetHitsMap failed to locate the requested HitsMap");
   return NULL;
