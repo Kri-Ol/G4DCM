@@ -106,18 +106,18 @@ void DicomRunAction::EndOfRunAction(const G4Run* aRun)
     //  (Display only central region of x-y plane)
     //      0       ConcreteSD/DoseDeposit
     //---------------------------------------------
-    G4THitsMap<G4double>* DoseDeposit =
-      reRun->GetHitsMap(fSDName[i]+"/DoseDeposit");
+    G4THitsMap<G4double>* DoseDeposit = reRun->GetHitsMap(fSDName[i]+"/DoseDeposit");
 
     if( DoseDeposit && DoseDeposit->GetMap()->size() != 0 ) {
-      std::map<G4int,G4double*>::iterator itr =
-        DoseDeposit->GetMap()->begin();
+      std::map<G4int,G4double*>::iterator itr = DoseDeposit->GetMap()->begin();
       for(; itr != DoseDeposit->GetMap()->end(); itr++) {
-        if(!IsMaster()) { local_total_dose += *(itr->second); }
+        if(!IsMaster())
+        {
+          local_total_dose += *(itr->second);
+        }
         total_dose += *(itr->second);
       }
     }
-
   }
 
   if (IsMaster())
@@ -156,21 +156,16 @@ void DicomRunAction::EndOfRunAction(const G4Run* aRun)
       //  (Display only central region of x-y plane)
       //      0       ConcreteSD/DoseDeposit
       //---------------------------------------------
-      G4THitsMap<G4double>* DoseDeposit =
-        re02Run->GetHitsMap(fSDName[i]+"/DoseDeposit");
+      G4THitsMap<G4double>* DoseDeposit = re02Run->GetHitsMap(fSDName[i]+"/DoseDeposit");
 
-      G4cout << "============================================================="
-             <<G4endl;
-      G4cout << " Number of event processed : "
-             << aRun->GetNumberOfEvent() << G4endl;
-      G4cout << "============================================================="
-             <<G4endl;
+      G4cout << "=============================================================" << G4endl;
+      G4cout << " Number of event processed : " << aRun->GetNumberOfEvent() << G4endl;
+      G4cout << "=============================================================" << G4endl;
 
       std::ofstream fileout;
       G4String fname = "dicom.out";
       fileout.open(fname);
       G4cout << " opened file " << fname << " for dose output" << G4endl;
-
 
       if( DoseDeposit && DoseDeposit->GetMap()->size() != 0 ) {
         std::ostream *myout = &G4cout;
@@ -186,18 +181,15 @@ void DicomRunAction::EndOfRunAction(const G4Run* aRun)
                  << G4endl;
         }
         G4cout << "============================================="<<G4endl;
-            } else {
-        G4Exception("DicomRunAction", "000", JustWarning,
-      "DoseDeposit HitsMap is either a null pointer of the HitsMap was empty");
+      } else {
+        G4Exception("DicomRunAction", "000", JustWarning, "DoseDeposit HitsMap is either a null pointer of the HitsMap was empty");
       }
       fileout.close();
       G4cout << " closed file " << fname << " for dose output" << G4endl;
-
     }
   }
 
   G4cout << "Finished : End of Run Action " << aRun->GetRunID() << G4endl;
-
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

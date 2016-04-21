@@ -55,7 +55,7 @@ public:  // with description
 
   virtual G4Material* ComputeMaterial(const G4int repNo,
                                       G4VPhysicalVolume *currentVol,
-                                      const G4VTouchable *parentTouch=0);
+                                      const G4VTouchable *parentTouch=0) override;
 
 private:
   void ReadColourData();
